@@ -1,0 +1,64 @@
+import numpy as np
+def part1():  
+  f=open(r'C:\Users\situ\Desktop\input3','r')
+  str=f.read()
+  s=str.split()
+  ss=[]
+  for i in range(2,len(s),4):
+      ss.append(s[i])
+  x=ss[0].split(',')
+  cc=[]
+  for i in range(3,len(s),4):
+      cc.append(s[i])
+  ditu=np.mat(np.zeros((1000,1000)))
+  for i,x in enumerate(ss):
+      loc=x.split(',')
+      a=int(loc[0])
+      b=int(loc[1][0:-1])
+      loc2=cc[i].split('x')
+      c=int(loc2[0])
+      d=int(loc2[1])
+      ditu[a:a+c,b:b+d]+=1
+  num=0
+  for i in range(1000):
+      for j in range(1000):
+          if ditu[i,j]>1:
+              num+=1
+  print(num)
+  
+def part2():
+  def solution():
+      f=open(r'C:\Users\situ\Desktop\input3','r')
+      str=f.read()
+      s=str.split()
+      ss=[]
+      for i in range(2,len(s),4):
+          ss.append(s[i])
+      x=ss[0].split(',')
+      cc=[]
+      for i in range(3,len(s),4):
+          cc.append(s[i])
+      ditu=np.mat(np.zeros((1000,1000)))
+      for i,x in enumerate(ss):
+          loc=x.split(',')
+          a=int(loc[0])
+          b=int(loc[1][0:-1])
+          loc2=cc[i].split('x')
+          c=int(loc2[0])
+          d=int(loc2[1])
+          ditu[a:a+c,b:b+d]+=1
+      for i,x in enumerate(ss):
+          loc = x.split(',')
+          a = int(loc[0])
+          b = int(loc[1][0:-1])
+          loc2 = cc[i].split('x')
+          c = int(loc2[0])
+          d = int(loc2[1])
+          flag=0
+          for m in range(a,a+c):
+              for n in range(b,b+d):
+                  if ditu[m,n]==1:
+                      flag+=1
+          if flag==c*d:
+              return i+1
+  print(solution())
