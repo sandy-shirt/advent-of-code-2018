@@ -1,5 +1,5 @@
 def part1():
-    f=open(r'C:\Users\situ\Desktop\input','r')
+    f=open(r'','r')
     str=f.read()
     f.close()
     a=str.split()
@@ -32,7 +32,7 @@ def part1():
     
 def part2():
     def solution():
-    f=open(r'C:\Users\situ\Desktop\input','r')
+    f=open(r'','r')
     str=f.read()
     f.close()
     a=str.split()
