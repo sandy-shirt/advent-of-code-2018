@@ -1,6 +1,6 @@
 import numpy as np
 def part1():  
-  f=open(r'C:\Users\situ\Desktop\input3','r')
+  f=open(r'','r')
   str=f.read()
   s=str.split()
   ss=[]
@@ -28,7 +28,7 @@ def part1():
   
 def part2():
   def solution():
-      f=open(r'C:\Users\situ\Desktop\input3','r')
+      f=open(r'','r')
       str=f.read()
       s=str.split()
       ss=[]
