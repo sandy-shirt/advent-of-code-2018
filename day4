@@ -1,0 +1,188 @@
+#-*-coding:utf-8-*-
+import re
+def part1():
+    d={}
+    time={}
+    f=open(r'C:\Users\situ\Desktop\DAY4','r')
+    for line in f:
+        data=re.match(r'\[(\d+)\-(\d+)\-(\d+) (\d+)\:(\d+)\] (\w+) (.{0,6})',line)
+        mon=int(data.group(2))
+        day=int(data.group(3))
+        hour=int(data.group(4))
+        minute=int(data.group(5))
+        kind=data.group(6)
+        id=data.group(7)
+        if hour==0:
+            if (mon,day) not in time:
+                time[mon,day]=[]
+                time[mon,day].append([hour,minute,kind])
+            else:
+                time[mon,day].append([hour,minute,kind])
+        else:
+            if (mon,day+1) not in time:
+                time[mon,day+1]=[]
+                time[mon,day+1].append([hour,minute,kind])
+            else:
+                time[mon,day+1].append([hour,minute,kind])
+        if id[0]=='#':
+            s=re.match(r'\#(\d+)',id)
+            if s.group(1) not in d:
+                if hour>1:
+                    d[s.group(1)]=[]
+                    d[s.group(1)].append([mon,day+1,hour,minute,kind])
+                else:
+                    d[s.group(1)] = []
+                    d[s.group(1)].append([mon, day, hour , minute, kind])
+            else:
+                if hour>1:
+                    d[s.group(1)].append([mon, day+1, hour, minute, kind])
+                else:
+                    d[s.group(1)].append([mon,day,hour,minute,kind])
+    out={}
+    for i in d:
+        out[i]=[0]
+    for i in d:
+        for j in range(len(d[i])):
+            a=sorted(time[(d[i][j][0],d[i][j][1])])
+            for k in range(len(a)):
+                if a[k][2]=='falls':
+                    out[i][0]=a[k+1][1]-a[k][1]+out[i][0]
+                    out[i].append((a[k][1],a[k+1][1]))
+    flag=float('-inf')
+    sol=0
+    for i in out:
+        if out[i][0]>flag:
+            flag=out[i][0]
+            sol=i
+    minutes={}
+    for i in range(60):
+        minutes[i]=0
+    for i in range(1,len(out[sol])):
+        for j in range(out[sol][i][0],out[sol][i][1]):
+            minutes[j]+=1
+    x=0
+    sol2=-1
+    for i in minutes:
+        if minutes[i]>x:
+            x=minutes[i]
+            sol2=i
+    print(int(sol2)*int(sol))
+
+def part2():
+    d={}
+    time={}
+    f=open(r'C:\Users\situ\Desktop\DAY4','r')
+    for line in f:
+        data=re.match(r'\[(\d+)\-(\d+)\-(\d+) (\d+)\:(\d+)\] (\w+) (.{0,6})',line)
+        mon=int(data.group(2))
+        day=int(data.group(3))
+        hour=int(data.group(4))
+        minute=int(data.group(5))
+        kind=data.group(6)
+        id=data.group(7)
+        if hour==0:
+            if (mon,day) not in time:
+                time[mon,day]=[]
+                time[mon,day].append([hour,minute,kind])
+            else:
+                time[mon,day].append([hour,minute,kind])
+        elif hour>1:
+            if mon in [1,3,5,7,8,10,12]:
+                if day==31:
+                    if (mon+1,1) not in time:
+                        time[mon+1,1]=[]
+                        time[mon + 1, 1].append([hour,minute,kind])
+                    else:
+                        time[mon + 1, 1].append([hour, minute, kind])
+                elif day<31:
+                    if (mon,day+1) not in time:
+                        time[mon,day+1]=[]
+                        time[mon,day+1].append([hour,minute,kind])
+                    else:
+                        time[mon,day+1].append([hour,minute,kind])
+            else:
+                if day==30:
+                    if (mon+1,1) not in time:
+                        time[mon+1,1]=[]
+                        time[mon + 1, 1].append([hour,minute,kind])
+                    else:
+                        time[mon + 1, 1].append([hour, minute, kind])
+                elif day<30:
+                    if (mon,day+1) not in time:
+                        time[mon,day+1]=[]
+                        time[mon,day+1].append([hour,minute,kind])
+                    else:
+                        time[mon,day+1].append([hour,minute,kind])
+        if id[0]=='#':
+            s=re.match(r'\#(\d+)',id)
+            if s.group(1) not in d:
+                if hour>1:
+                    if mon in [1,3,5,7,8,10,12]:
+                        if day==31:
+                            d[s.group(1)]=[]
+                            d[s.group(1)].append([mon+1,1,hour,minute,kind])
+                        else:
+                            d[s.group(1)] = []
+                            d[s.group(1)].append([mon , day+1 , hour, minute, kind])
+                    else:
+                        if day==30:
+                            d[s.group(1)] = []
+                            d[s.group(1)].append([mon + 1, 1, hour, minute, kind])
+                        else:
+                            d[s.group(1)] = []
+                            d[s.group(1)].append([mon, day + 1, hour, minute, kind])
+                else:
+                    d[s.group(1)] = []
+                    d[s.group(1)].append([mon, day, hour , minute, kind])
+            else:
+                if hour>1:
+                    if mon in [1,3,5,7,8,10,12]:
+                        if day==31:
+                            d[s.group(1)].append([mon+1, 1, hour, minute, kind])
+                        else:
+                            d[s.group(1)].append([mon, day+1, hour, minute, kind])
+                    else:
+                        if day==30:
+                            d[s.group(1)].append([mon+1, 1, hour, minute, kind])
+                        else:
+                            d[s.group(1)].append([mon, day+1, hour, minute, kind])
+                else:
+                    d[s.group(1)].append([mon,day,hour,minute,kind])
+    out={}
+    for i in d:
+        out[i]=[0]
+    for i in d:
+        for j in range(len(d[i])):
+            a=sorted(time[(d[i][j][0],d[i][j][1])])
+            for k in range(len(a)):
+                if a[k][2]=='falls':
+                    out[i][0]=a[k+1][1]-a[k][1]+out[i][0]
+                    out[i].append((a[k][1],a[k+1][1]))
+    pb=0
+    index=0
+    index2=0
+    for i in out:
+        minutes={}
+        p=0
+        for j in range(1,len(out[i])):
+            for k in range(out[i][j][0],out[i][j][1]):
+                if k not in minutes:
+                    minutes[k]=1
+                else:
+                    minutes[k]+=1
+        for m in minutes:
+            if minutes[m]>p:
+                p=minutes[m]
+                if p>pb:
+                    pb=p
+                    index=i
+                    index2=m
+    print(int(index)*int(index2))
+
+
+
+
+
+
+part1()
+part2()
