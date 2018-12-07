@@ -3,7 +3,8 @@ import re
 import collections
 whole=set()
 dic=collections.defaultdict(list)
-f=open(r'C:\Users\situ\Desktop\DAY7','r')
+#write in the directory
+f=open(r'','r')
 for line in f:
     data=re.findall(r'\ (\w)\ ',line)
     # print(data)
