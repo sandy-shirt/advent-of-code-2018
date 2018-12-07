@@ -1,0 +1,76 @@
+import re
+import collections
+whole=set()
+dic=collections.defaultdict(list)
+f=open(r'C:\Users\situ\Desktop\DAY7','r')
+for line in f:
+    data=re.findall(r'\ (\w)\ ',line)
+    # print(data)
+    dic[data[1]].append(data[0])
+    whole.add(data[0])
+    whole.add(data[1])
+dic2=dic.copy()
+def part1(dic,whole):
+    str=['F']
+    str2=set()
+    str2.add('S')
+    while len(str)<len(whole):
+        for i in dic:
+            if set(dic[i]).issubset(set(str)):
+                str2.add(i)
+        # if not str2:
+        #     return str
+        # else:
+        s=min(
+            ord(j) for j in str2
+        )
+        str2.remove(chr(s))
+        str.append(chr(s))
+        if chr(s) in dic:
+          dic.pop(chr(s))
+    return str
+
+def part2(x,dic):
+    str = ['F']
+    str2 = set()
+    str2.add('S')
+    delay=60
+    d=[{},{},{},{},{}]
+    for i in range(5):
+        d[i]=collections.defaultdict(int)
+    d[0]['F']=66
+    d[1]['S']=79
+    d[2][1]=0
+    d[3][1] = 0
+    d[4][1] = 0
+    for i in x:
+        if i=='F' or i=='S':
+            continue
+        time=0
+        for m in dic[i]:
+            for n in d:
+                if m in n:
+                    if n[m]>time:
+                        time=n[m]
+                    break
+        pp=float('inf')
+        index=-1
+        for l in range(len(d)):
+            if max(d[l][o] for o in d[l])<pp:
+                pp=max(d[l][o] for o in d[l])
+                index=l
+        if time > max(d[index][o] for o in d[index]):
+            d[index][i]=time+delay+ord(i)-64
+        else:
+            d[index][i] = max(d[index][o] for o in d[index]) + delay + ord(i) - 64
+    t=[0,0,0,0,0]
+    for c in range(5):
+        t[c]=max(
+            d[c][p] for p in d[c]
+        )
+    return max(t)
+
+
+x=part1(dic,whole)
+print(''.join(x))
+print(part2(x,dic2))
