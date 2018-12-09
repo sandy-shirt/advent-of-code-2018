@@ -1,0 +1,35 @@
+#-*-coding:utf-8-*-
+import re
+import collections
+f=open(r'C:\Users\situ\Desktop\DAY9','r')
+data1=f.read()
+data=re.findall(r'\d+',data1)
+# data=['458','1000']
+def part1(data):
+    que=[0,2,1]
+    index=1
+    j=3
+    d=collections.defaultdict(int)
+    for i in range(3,int(data[1])*100+1):
+        if i%23==0:
+            index=index-7
+            if index<0:
+                index=index+len(que)
+            d[j]+=i+que[index]
+            que.pop(index)
+            j += 1
+            if j > int(data[0]):
+                j = 1
+        else:
+            index+=2
+            if index>len(que):
+                index=index-len(que)
+            que.insert(index,i)
+            j+=1
+            if j>int(data[0]):
+                j=1
+    # print(d)
+    print(max(d[j] for j in d))
+part1(data)
+
+
