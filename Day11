@@ -1,0 +1,48 @@
+#-*-coding:utf-8-*-
+import collections
+import numpy as np
+import time
+grid=set((x,y) for x in range(1,301) for y in range(1,301))
+power=collections.defaultdict(int)
+number=9306
+def sol1(grid,power,number):
+    maxpower=float('-inf')
+    p=[(0,0)]
+    for (x,y) in grid:
+        point=((x+10)*y+number)*(x+10)
+        power[(x,y)]=int(str(point)[-3])-5
+    for (x,y) in grid:
+        if x>298 or y>298 :
+            continue
+        else:
+            pow=power[(x,y)]+power[(x+1,y)]+power[(x+2,y)]+power[(x,y+1)]+power[(x+1,y+1)]\
+                +power[(x+2,y+1)]+power[(x,y+2)]+power[(x+1,y+2)]+power[(x+2,y+2)]
+            if pow>=maxpower:
+                maxpower=pow
+                p[0]=(x,y)
+    print(maxpower,p[0])
+
+def sol2(grid,power,number):
+    maxpower = float('-inf')
+    p = [(0, 0),0]
+    power2=np.zeros((301,301))
+    for (x,y) in grid:
+        point = ((x + 10) * y + number) * (x + 10)
+        power2[x, y] = int(str(point)[-3]) - 5
+    for i in range(1,301):
+        for x in range(1,301-i):
+            for y in range(1,301-i):
+                pow=np.sum(power2[x:x+i,y:y+i])
+                if pow>maxpower:
+                    maxpower=pow
+                    p[0]=(x,y)
+                    p[1]=i
+
+    print(p)
+
+
+# sol1(grid,power,number)
+start=time.time()
+sol2(grid,power,number)
+end=time.time()
+print(end-start)
