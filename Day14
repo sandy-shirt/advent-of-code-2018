@@ -1,0 +1,31 @@
+input=147061
+input2='147061'
+def part1():
+    result=[3,7]
+    dic={'1':0,'2':1}
+    while len(result)<input+10:
+        x=result[dic['1']]+result[dic['2']]
+        for i in str(x):
+            result.append(int(i))
+        dic['1'] = (result[dic['1']]+1+dic['1']) %len(result)
+        dic['2'] = (result[dic['2']]+1+dic['2']) %len(result)
+    return result[input:input+10]
+
+def part2():
+    result = [3, 7]
+    dic = {'1': 0, '2': 1}
+    index=0
+    while True:
+        x = result[dic['1']] + result[dic['2']]
+        for i in str(x):
+            if i == input2[index]:
+                index+=1
+            else:
+                index=0
+            result.append(int(i))
+            if index==6:
+                return len(result)-6
+        dic['1'] = (result[dic['1']] + 1 + dic['1']) % len(result)
+        dic['2'] = (result[dic['2']] + 1 + dic['2']) % len(result)
+print(part1())
+print(part2())
