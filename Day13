@@ -113,6 +113,6 @@ def main(A):
     print('Part 2 {},{}'.format(x,y))
     print(t)
 if __name__ == '__main__':
-    A = open(r'C:\Users\situ\Desktop\DAY13','r').read()
+    A = open(r'','r').read()
     A = A.splitlines()
     main(A)
