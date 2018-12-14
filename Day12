@@ -41,6 +41,6 @@ def main(A):
     res = cnt_200 + delta * (50000000000 - 200)
     print('Part 2', res)
 if __name__ == '__main__':
-    A = open(r'C:\Users\situ\Desktop\DAY12','r').read()
+    A = open(r'','r').read()
     A = A.splitlines()
     main(A)
